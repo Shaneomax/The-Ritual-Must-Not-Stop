@@ -1842,6 +1842,11 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!20 &203569079 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9005220659476430821, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+  m_PrefabInstance: {fileID: 203569074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &209190051
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2240,6 +2245,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8068073526183931155, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -305091885687274788, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
@@ -2760,6 +2773,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
       insertIndex: -1
       addedObject: {fileID: 796656192}
+    - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 796656196}
     - targetCorrespondingSourceObject: {fileID: -476195147770855191, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
       insertIndex: -1
       addedObject: {fileID: 550393082}
@@ -10081,7 +10097,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &330585544
 AudioListener:
   m_ObjectHideFlags: 0
@@ -14964,11 +14980,24 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2619086233303812490, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
+--- !u!114 &796656196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248256728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dab1520be157c447b16b19c1685b36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableDoor
+  isOpen: 0
 --- !u!64 &797621200
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -17387,7 +17416,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1742813401}
   m_SourcePrefab: {fileID: 100100000, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
 --- !u!64 &1036811558
 MeshCollider:
@@ -23593,6 +23625,28 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1505804072640676300, guid: 1cd173c84a065b04d93f53deb054eb66, type: 3}
+--- !u!1 &1742813394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+  m_PrefabInstance: {fileID: 1034422415}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1742813401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742813394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab23d918f42bc02488fb139ce52cc657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
+  mainCamera: {fileID: 203569079}
+  interactionDistance: 3
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!64 &1743655463
 MeshCollider:
   m_ObjectHideFlags: 0
