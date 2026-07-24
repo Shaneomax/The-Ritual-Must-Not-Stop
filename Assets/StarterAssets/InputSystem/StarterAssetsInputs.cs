@@ -45,7 +45,6 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
         
-        // ADD THIS METHOD
 		public void OnInteract(InputValue value) 
 		{
 			InteractInput(value.isPressed);
