@@ -12,14 +12,19 @@ public class PlayerContext : MonoBehaviour
     [SerializeField] private FirstPersonController _fpsController;
     [SerializeField] private StarterAssetsInputs _input;
 
+    [Header("Camera")]
+    [Tooltip("Drag the MainCamera here. Used by pickup animations for eye-level targeting.")]
+    [SerializeField] private Camera _mainCamera;
+
     [Header("Systems")]
     [SerializeField] private PlayerInventory _inventory;
 
     // ── Public Accessors ─────────────────────────────────────────────────────
-    public CharacterController CharacterController => _characterController;
-    public FirstPersonController FPSController      => _fpsController;
-    public StarterAssetsInputs   Input              => _input;
-    public PlayerInventory       Inventory          => _inventory;
+    public CharacterController   CharacterController => _characterController;
+    public FirstPersonController FPSController       => _fpsController;
+    public StarterAssetsInputs   Input               => _input;
+    public PlayerInventory       Inventory           => _inventory;
+    public Camera                MainCamera          => _mainCamera;
 
     // ── Player Freeze / Unfreeze ─────────────────────────────────────────────
     /// <summary>Disables movement and physics so a cutscene or animation can take over.</summary>
@@ -43,5 +48,6 @@ public class PlayerContext : MonoBehaviour
         if (_fpsController == null)       _fpsController       = GetComponent<FirstPersonController>();
         if (_input == null)               _input               = GetComponent<StarterAssetsInputs>();
         if (_inventory == null)           _inventory           = GetComponent<PlayerInventory>();
+        if (_mainCamera == null)          _mainCamera          = Camera.main;
     }
 }

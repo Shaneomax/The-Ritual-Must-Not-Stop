@@ -583,7 +583,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2279875058463414405, guid: c78fcf10a3c04644eb83bca5d2fec908, type: 3}
 --- !u!114 &76100069
@@ -602,6 +602,33 @@ MonoBehaviour:
   _playerContext: {fileID: 1742813408}
   _taskToComplete: {fileID: 11400000, guid: 7247a2de91067a94882f4979445e739f, type: 2}
   _itemData: {fileID: 11400000, guid: 0e2718713845e924f89f6f9cb538618b, type: 2}
+--- !u!114 &76100073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76100060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
+  _riseDuration: 0.35
+  _riseEase: 9
+  _minClearHeight: 0.6
+  _glideDuration: 0.45
+  _glideEase: 9
+  _focusDistance: 1.5
+  _focusHeightOffset: -0.1
+  _obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _collectDuration: 0.5
+  _collectEase: 8
+  _collectPassDistance: 0.5
+  _scaleDownOnCollect: 1
+  _scaleDownDelay: 0.15
 --- !u!64 &77927516
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1027,9 +1054,36 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 444954648325390464, guid: f1e35262771d87a46989ec320c4f508f, type: 3}
+--- !u!114 &110708312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110708303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
+  _riseDuration: 0.35
+  _riseEase: 9
+  _minClearHeight: 0.6
+  _glideDuration: 0.45
+  _glideEase: 9
+  _focusDistance: 1.5
+  _focusHeightOffset: -0.1
+  _obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _collectDuration: 0.35
+  _collectEase: 8
+  _collectPassDistance: 0.5
+  _scaleDownOnCollect: 1
+  _scaleDownDelay: 0.15
 --- !u!64 &112190589
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1496,6 +1550,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c78fcf10a3c04644eb83bca5d2fec908, type: 3}
       insertIndex: -1
       addedObject: {fileID: 76100069}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c78fcf10a3c04644eb83bca5d2fec908, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 76100073}
   m_SourcePrefab: {fileID: 100100000, guid: c78fcf10a3c04644eb83bca5d2fec908, type: 3}
 --- !u!64 &170832315
 MeshCollider:
@@ -1705,7 +1762,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 43.034
+      value: 49.259
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1713,7 +1770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -127.486
+      value: -122.811
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6913,7 +6970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 43.034
+      value: 49.259
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6921,7 +6978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -127.486
+      value: -122.811
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10812,6 +10869,7 @@ MonoBehaviour:
   _characterController: {fileID: 1742813407}
   _fpsController: {fileID: 1742813406}
   _input: {fileID: 1742813404}
+  _mainCamera: {fileID: 203569079}
   _inventory: {fileID: 1742813409}
 --- !u!114 &1742813409
 MonoBehaviour:
@@ -11346,6 +11404,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e35262771d87a46989ec320c4f508f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 110708308}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e35262771d87a46989ec320c4f508f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 110708312}
   m_SourcePrefab: {fileID: 100100000, guid: f1e35262771d87a46989ec320c4f508f, type: 3}
 --- !u!64 &1869940752
 MeshCollider:
@@ -11581,7 +11642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 43.034
+      value: 49.259
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11589,7 +11650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -127.486
+      value: -122.811
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_LocalRotation.w
@@ -24441,6 +24502,10 @@ PrefabInstance:
     - target: {fileID: 5051947106448140905, guid: 1c6d11f1cbad2f64e887637621e48200, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169741229061938058, guid: 1c6d11f1cbad2f64e887637621e48200, type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9103652645843391755, guid: 1c6d11f1cbad2f64e887637621e48200, type: 3}
       propertyPath: _playerContext
@@ -70210,6 +70275,7 @@ GameObject:
   - component: {fileID: 9102717498424545671}
   - component: {fileID: 9102717498424545672}
   - component: {fileID: 9102717498424545673}
+  - component: {fileID: 9102717498424545674}
   m_Layer: 6
   m_Name: Crayon_11
   m_TagString: Untagged
@@ -81463,6 +81529,33 @@ MonoBehaviour:
   _promptText: Press E to Interact
   _playerContext: {fileID: 1742813408}
   _itemData: {fileID: 11400000, guid: e1d4ca76b9d490743984ffd56cc243a8, type: 2}
+--- !u!114 &9102717498424545674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7575472541734871716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
+  _riseDuration: 0.35
+  _riseEase: 9
+  _minClearHeight: 0.6
+  _glideDuration: 0.45
+  _glideEase: 9
+  _focusDistance: 1.5
+  _focusHeightOffset: -0.1
+  _obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _collectDuration: 0.5
+  _collectEase: 8
+  _collectPassDistance: 0.5
+  _scaleDownOnCollect: 1
+  _scaleDownDelay: 0.15
 --- !u!33 &9104759547794006093
 MeshFilter:
   m_ObjectHideFlags: 0

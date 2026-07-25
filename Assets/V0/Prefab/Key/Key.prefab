@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 1828303468369434489}
   - component: {fileID: 5300183654199015416}
   - component: {fileID: 5972340772626296048}
+  - component: {fileID: 8278912176436003524}
   m_Layer: 6
   m_Name: Key
   m_TagString: Untagged
@@ -330,6 +331,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.04, y: 0.15, z: 0.08}
   m_Center: {x: 0, y: 0.03, z: 0.26}
+--- !u!114 &8278912176436003524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6059903030810885174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
+  _focusDuration: 0.7
+  _focusEase: 9
+  _focusDistance: 1.5
+  _focusHeightOffset: -0.1
+  _collectDuration: 0.5
+  _collectEase: 8
+  _collectPassDistance: 0.5
+  _scaleDownOnCollect: 1
+  _scaleDownDelay: 0.15
 --- !u!1 &6928346954850998810
 GameObject:
   m_ObjectHideFlags: 0

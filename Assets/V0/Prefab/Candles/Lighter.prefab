@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7295588426312563177}
   - component: {fileID: 5169741229061938058}
   - component: {fileID: 9103652645843391755}
+  - component: {fileID: 6314629092124078270}
   m_Layer: 6
   m_Name: Lighter
   m_TagString: Untagged
@@ -129,3 +130,24 @@ MonoBehaviour:
   _promptText: Press E to Interact
   _playerContext: {fileID: 0}
   _itemData: {fileID: 11400000, guid: 14f3e5ae1c0917b4ab9a4011491caf67, type: 2}
+--- !u!114 &6314629092124078270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3662534761613385456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
+  _focusDuration: 0.7
+  _focusEase: 9
+  _focusDistance: 1.5
+  _focusHeightOffset: -0.1
+  _collectDuration: 0.5
+  _collectEase: 8
+  _collectPassDistance: 0.5
+  _scaleDownOnCollect: 1
+  _scaleDownDelay: 0.15
