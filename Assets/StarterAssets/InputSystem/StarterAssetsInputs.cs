@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool interact; 
+        public bool flashlight;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -49,6 +50,10 @@ namespace StarterAssets
 		{
 			InteractInput(value.isPressed);
 		}
+		public void OnFlashlight(InputValue value) 
+        {
+            FlashlightInput(value.isPressed);
+        }
 #endif
 
 		public void MoveInput(Vector2 newMoveDirection)
@@ -85,5 +90,9 @@ namespace StarterAssets
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
+		public void FlashlightInput(bool newFlashlightState)
+        {
+            flashlight = newFlashlightState;
+        }
 	}
 }
