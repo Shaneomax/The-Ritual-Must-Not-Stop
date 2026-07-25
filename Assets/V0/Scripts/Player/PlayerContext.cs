@@ -41,6 +41,26 @@ public class PlayerContext : MonoBehaviour
         if (_characterController != null) _characterController.enabled = true;
     }
 
+    /// <summary>
+    /// Forces the player to look exactly at the same angles as the provided camera.
+    /// Use this right before ending a cutscene to prevent the camera from snapping.
+    /// </summary>
+    public void SyncLookToCamera(Transform sourceCamera)
+    {
+        if (_fpsController != null && sourceCamera != null)
+        {
+            // Extract the Euler angles. 
+            // X is pitch (up/down), Y is yaw (left/right).
+            Vector3 euler = sourceCamera.eulerAngles;
+            
+            // Convert pitch to -180...180 range so clamping works correctly in FPSController
+            float pitch = euler.x;
+            if (pitch > 180f) pitch -= 360f;
+
+            _fpsController.SyncCameraRotation(euler.y, pitch);
+        }
+    }
+
     // ── Auto-fill in Editor ───────────────────────────────────────────────────
     private void OnValidate()
     {

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -120,6 +120,18 @@ namespace StarterAssets
 		private void LateUpdate()
 		{
 			CameraRotation();
+		}
+
+		/// <summary>
+		/// Forces the player's look rotation to perfectly match a specific yaw and pitch.
+		/// Crucial for seamless Cinemachine transitions so the camera doesn't snap.
+		/// </summary>
+		public void SyncCameraRotation(float yaw, float pitch)
+		{
+			_cinemachineTargetPitch = ClampAngle(pitch, BottomClamp, TopClamp);
+			CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+			
+			transform.rotation = Quaternion.Euler(0.0f, yaw, 0.0f);
 		}
 
 		private void GroundedCheck()
