@@ -614,21 +614,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
-  _riseDuration: 0.35
-  _riseEase: 9
-  _minClearHeight: 0.6
-  _glideDuration: 0.45
-  _glideEase: 9
+  _focusDuration: 0.6
+  _focusEase: 6
   _focusDistance: 1.5
-  _focusHeightOffset: -0.1
-  _obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  _arcHeight: 0.2
   _collectDuration: 0.5
   _collectEase: 8
   _collectPassDistance: 0.5
   _scaleDownOnCollect: 1
-  _scaleDownDelay: 0.15
 --- !u!64 &77927516
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1069,21 +1062,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
-  _riseDuration: 0.35
-  _riseEase: 9
-  _minClearHeight: 0.6
-  _glideDuration: 0.45
-  _glideEase: 9
+  _focusDuration: 0.6
+  _focusEase: 6
   _focusDistance: 1.5
-  _focusHeightOffset: -0.1
-  _obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  _arcHeight: 0.2
   _collectDuration: 0.35
   _collectEase: 8
   _collectPassDistance: 0.5
   _scaleDownOnCollect: 1
-  _scaleDownDelay: 0.15
 --- !u!64 &112190589
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -81541,21 +81527,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d0af4d913eab64e8c6c4edaab7c3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupAnimationHandler
-  _riseDuration: 0.35
-  _riseEase: 9
-  _minClearHeight: 0.6
-  _glideDuration: 0.45
-  _glideEase: 9
+  _focusDuration: 0.6
+  _focusEase: 6
   _focusDistance: 1.5
-  _focusHeightOffset: -0.1
-  _obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  _arcHeight: 0.2
   _collectDuration: 0.5
   _collectEase: 8
   _collectPassDistance: 0.5
   _scaleDownOnCollect: 1
-  _scaleDownDelay: 0.15
 --- !u!33 &9104759547794006093
 MeshFilter:
   m_ObjectHideFlags: 0
