@@ -1,31 +1,43 @@
 using UnityEngine;
 
-public class InteractableTaskPickup : MonoBehaviour, IInteractable
+/// <summary>
+/// Task-completing item pickup. Adds the item to inventory AND marks a GameTask complete.
+///
+/// Inspector setup:
+///   - Item Data        → drag the ItemData ScriptableObject here
+///   - Task To Complete → drag the GameTask ScriptableObject here
+///   - Player Context   → drag PlayerCapsule here
+///   - Prompt Text      → override defaults to "Press E to pick up [name]"
+/// </summary>
+public class InteractableTaskPickup : InteractableBase
 {
     [Header("Task Settings")]
-    [Tooltip("The ScriptableObject task this item completes")]
-    public GameTask taskToComplete; 
-    
-    [Header("Item Details")]
-    public string itemName = "Demon Book";
+    [Tooltip("The ScriptableObject task this pickup completes.")]
+    [SerializeField] private GameTask _taskToComplete;
 
-    public string GetDescription()
+    [Header("Item Settings")]
+    [SerializeField] private ItemData _itemData;
+
+    // ── IInteractable ─────────────────────────────────────────────────────────
+
+    public override string GetDescription()
     {
-        return $"Press E to pick up {itemName}";
+        return _itemData != null ? $"Press E to pick up {_itemData.itemName}" : _promptText;
     }
 
-    public void Interact()
-    {   
-        Debug.Log($"You picked up {itemName}!");
+    public override void Interact()
+    {
+        if (_itemData == null) return;
 
-        // Mark the ScriptableObject task as complete!
-        if (taskToComplete != null)
+        Debug.Log($"You picked up {_itemData.itemName}!");
+        _playerContext?.Inventory.AddItem(_itemData.type);
+
+        if (_taskToComplete != null)
         {
-            taskToComplete.isCompleted = true;
-            Debug.Log($"Task Completed: {taskToComplete.taskName}");
+            _taskToComplete.isCompleted = true;
+            Debug.Log($"Task Completed: {_taskToComplete.taskName}");
         }
 
-        // Destroy the object like a normal pickup
-        Destroy(gameObject); 
+        Destroy(gameObject);
     }
 }

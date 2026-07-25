@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3662534761613385456}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0.000000059604645, z: 0.000000059604645, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 56.021004, y: 0.514, z: -127.302}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &5973618257188143445
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -126,4 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15871a3f84732489d8cf14279a003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractablePickup
-  itemData: {fileID: 11400000, guid: 14f3e5ae1c0917b4ab9a4011491caf67, type: 2}
+  _promptText: Press E to Interact
+  _playerContext: {fileID: 0}
+  _itemData: {fileID: 11400000, guid: 14f3e5ae1c0917b4ab9a4011491caf67, type: 2}

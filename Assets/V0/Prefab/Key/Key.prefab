@@ -126,7 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15871a3f84732489d8cf14279a003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractablePickup
-  itemData: {fileID: 0}
+  _promptText: Press E to Interact
+  _playerContext: {fileID: 0}
+  _itemData: {fileID: 0}
 --- !u!1 &1422806385999458900
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15871a3f84732489d8cf14279a003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractablePickup
-  itemData: {fileID: 0}
+  _promptText: Press E to Interact
+  _playerContext: {fileID: 0}
+  _itemData: {fileID: 0}
 --- !u!1 &6059903030810885174
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +286,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 56.182, y: 0.57, z: -127.833}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.5000005, y: 1.5000006, z: 1.4999999}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1671320459752003680}
@@ -302,7 +306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15871a3f84732489d8cf14279a003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractablePickup
-  itemData: {fileID: 11400000, guid: 76fdec5ffed76424d8b65b63c0ba3cc2, type: 2}
+  _promptText: Press E to Interact
+  _playerContext: {fileID: 0}
+  _itemData: {fileID: 11400000, guid: 76fdec5ffed76424d8b65b63c0ba3cc2, type: 2}
 --- !u!65 &5972340772626296048
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -450,4 +456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15871a3f84732489d8cf14279a003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractablePickup
-  itemData: {fileID: 0}
+  _promptText: Press E to Interact
+  _playerContext: {fileID: 0}
+  _itemData: {fileID: 0}

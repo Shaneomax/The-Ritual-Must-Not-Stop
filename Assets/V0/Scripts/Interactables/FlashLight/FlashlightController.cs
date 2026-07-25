@@ -1,48 +1,41 @@
 using UnityEngine;
 using StarterAssets;
 
+/// <summary>
+/// Toggles the player's flashlight on/off via the Flashlight input action.
+/// Attach to the FlashlightController GameObject (child of PlayerCameraRoot or PlayerCapsule).
+///
+/// Inspector setup:
+///   - Flashlight Light → drag your Spot Light component here
+///   - Input            → drag the StarterAssetsInputs component from PlayerCapsule here
+/// </summary>
 public class FlashlightController : MonoBehaviour
 {
     [Header("Flashlight Settings")]
-    [Tooltip("Drag your Spot Light here")]
-    public Light flashlightLight;
-    public bool isLit = false;
+    [SerializeField] private Light _flashlightLight;
+    [SerializeField] private bool _isLit = false;
 
-    private StarterAssetsInputs _input;
+    [Header("References")]
+    [SerializeField] private StarterAssetsInputs _input;
 
     private void Start()
     {
-        // Find the input script on the Player
-        _input = GameObject.FindGameObjectWithTag("Player").GetComponent<StarterAssetsInputs>();
-
-        // Ensure the light matches the starting state
-        if (flashlightLight != null)
-        {
-            flashlightLight.enabled = isLit;
-        }
+        if (_flashlightLight != null)
+            _flashlightLight.enabled = _isLit;
     }
 
     private void Update()
     {
-        // If the player pressed the 'F' key
-        if (_input != null && _input.flashlight)
-        {
-            ToggleFlashlight();
-            
-            // Instantly consume the input so it doesn't flicker on and off every frame
-            _input.flashlight = false; 
-        }
+        if (_input == null || !_input.flashlight) return;
+
+        ToggleFlashlight();
+        _input.flashlight = false; // Consume the input so it doesn't repeat every frame
     }
 
     private void ToggleFlashlight()
     {
-        isLit = !isLit;
-        
-        if (flashlightLight != null)
-        {
-            flashlightLight.enabled = isLit;
-        }
-
-        Debug.Log(isLit ? "Flashlight ON" : "Flashlight OFF");
+        _isLit = !_isLit;
+        if (_flashlightLight != null) _flashlightLight.enabled = _isLit;
+        Debug.Log(_isLit ? "Flashlight ON" : "Flashlight OFF");
     }
 }

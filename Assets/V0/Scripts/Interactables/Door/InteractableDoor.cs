@@ -1,86 +1,67 @@
 using UnityEngine;
 
-public class InteractableDoor : MonoBehaviour, IInteractable
+/// <summary>
+/// Interactable door. Supports open/close and locked state requiring a Key.
+/// Requires the player to have ItemType.Key in their PlayerInventory to unlock.
+///
+/// Inspector setup:
+///   - Player Context → drag PlayerCapsule here
+///   - Prompt Text    → e.g. "Press E to Open Door"
+///   - Tag the GameObject as "Locked" in the Inspector to make it require a key
+/// </summary>
+public class InteractableDoor : InteractableBase
 {
     [Header("Door Settings")]
-    public bool isOpen = false;
+    [SerializeField] private bool _isOpen = false;
+    
     private Animator _animator;
-
-    [Header("Lock Settings")]
-    [Tooltip("The exact name of the Key GameObject on the player")]
-    public string keyObjectName = "Key";
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
     }
 
-    public string GetDescription()
-    {
-        if (isOpen)
-        {
-            return "Press E to Close Door";
-        }
-        
-        // Change the UI prompt if the door is tagged as Locked
-        if (gameObject.CompareTag("Locked"))
-        {
-            return "Press E to Unlock Door (Requires Key)";
-        }
+    // ── IInteractable ─────────────────────────────────────────────────────────
 
-        return "Press E to Open Door";
+    public override string GetDescription()
+    {
+        if (_isOpen) return "Press E to Close Door";
+        if (gameObject.CompareTag("Locked")) return "Press E to Unlock Door (Requires Key)";
+        return _promptText;
     }
 
-    public void Interact()
+    public override void Interact()
     {
-        // 1. If the door is closed and locked, we must check for the key first
-        if (!isOpen && gameObject.CompareTag("Locked"))
+        // Locked door — check inventory for key first
+        if (!_isOpen && gameObject.CompareTag("Locked"))
         {
-            if (IsKeyActive())
+            if (_playerContext != null && _playerContext.Inventory.HasItem(ItemType.Key))
             {
                 UnlockDoor();
             }
             else
             {
                 Debug.Log("The door is locked. You need a key!");
-                return; // Stop the interaction here so the door doesn't open
+                return;
             }
         }
 
-        // 2. Standard open/close logic (runs if unlocked, or if they just unlocked it)
-        isOpen = !isOpen; 
-        Debug.Log(isOpen ? "Door Opened!" : "Door Closed!");
-        
-        if (_animator != null)
-        {
-            _animator.SetBool("IsOpen", isOpen);
-        }
+        ToggleDoor();
+    }
+
+    // ── Private Helpers ───────────────────────────────────────────────────────
+
+    private void ToggleDoor()
+    {
+        _isOpen = !_isOpen;
+        Debug.Log(_isOpen ? "Door Opened!" : "Door Closed!");
+        _animator?.SetBool("IsOpen", _isOpen);
     }
 
     private void UnlockDoor()
     {
         Debug.Log("Door unlocked with the key!");
-        
-        // Remove the Locked tag so the player doesn't need to keep holding the key
-        // to close or re-open this door later.
-        gameObject.tag = "Untagged"; 
-    }
-
-    private bool IsKeyActive()
-    {
-        // Search the player for the active Key object
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            Transform[] allChildren = player.GetComponentsInChildren<Transform>(true);
-            foreach (Transform child in allChildren)
-            {
-                if (child.name == keyObjectName)
-                {
-                    return child.gameObject.activeInHierarchy;
-                }
-            }
-        }
-        return false;
+        // Remove the Locked tag so the key is not required again for this door
+        gameObject.tag = "Untagged";
     }
 }

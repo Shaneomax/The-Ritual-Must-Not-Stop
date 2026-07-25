@@ -1,96 +1,77 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events; 
-using StarterAssets; 
+using UnityEngine.Events;
 
+/// <summary>
+/// Trigger zone that fires a cinematic event sequence when the player enters,
+/// conditioned on a GameTask's state.
+///
+/// Inspector setup:
+///   - Player Context     → drag PlayerCapsule here
+///   - Target Task        → the GameTask SO to check
+///   - Cinematic Cameras  → list of Cinemachine cameras to activate during the sequence
+///   - On Event Triggered → hook up any extra Unity Events here
+/// </summary>
 public class TaskEventSequence : MonoBehaviour
 {
     public enum TaskActivationCondition
     {
-        MustBeStarted,
-        MustBeCompleted
+        MustBeCompleted,
+        MustBeStarted
     }
 
+    [Header("References")]
+    [SerializeField] private PlayerContext _playerContext;
+
     [Header("Task Settings")]
-    [Tooltip("The ScriptableObject task this zone listens to")]
-    public GameTask targetTask;
-    [Tooltip("Should this trigger work when the task starts, or only when it's completed?")]
-    public TaskActivationCondition condition = TaskActivationCondition.MustBeCompleted;
-    
-    [Header("Cinematic Sequence Settings")]
-    [Tooltip("A list of Cinemachine cameras to cycle through during the sequence")]
-    public List<GameObject> cinematicCameras = new List<GameObject>();
-    [Tooltip("How long each camera stays active, or total duration")]
-    public float sequenceDuration = 2.5f; 
-    [Tooltip("Cinemachine blend time")]
-    public float cameraBlendTime = 1.0f; 
-    
+    [SerializeField] private GameTask _targetTask;
+    [SerializeField] private TaskActivationCondition _condition = TaskActivationCondition.MustBeCompleted;
+
+    [Header("Cinematic Sequence")]
+    [Tooltip("All cameras in this list activate at the start of the sequence.")]
+    [SerializeField] private List<GameObject> _cinematicCameras = new List<GameObject>();
+    [SerializeField] private float _sequenceDuration = 2.5f;
+    [SerializeField] private float _cameraBlendTime  = 1.0f;
+
     [Header("Custom Events")]
-    [Tooltip("Add any custom functions or debug logs here when the event fires")]
-    public UnityEvent onEventTriggered;
+    public UnityEvent OnEventTriggered;
 
     private bool _hasTriggered = false;
 
+    // ── Trigger ───────────────────────────────────────────────────────────────
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !_hasTriggered && targetTask != null)
-        {
-            // Check condition based on what the user requested
-            bool conditionMet = false;
+        if (!other.CompareTag("Player") || _hasTriggered || _targetTask == null) return;
 
-            if (condition == TaskActivationCondition.MustBeCompleted && targetTask.isCompleted)
-            {
-                conditionMet = true;
-            }
-            else if (condition == TaskActivationCondition.MustBeStarted && !targetTask.isCompleted)
-            {
-                // Assuming if it's not completed yet, it's active/started
-                conditionMet = true; 
-            }
+        bool conditionMet = _condition == TaskActivationCondition.MustBeCompleted
+            ? _targetTask.isCompleted
+            : !_targetTask.isCompleted;
 
-            if (conditionMet)
-            {
-                StartCoroutine(PlayEventSequence());
-            }
-        }
+        if (conditionMet) StartCoroutine(PlayEventSequence());
     }
+
+    // ── Coroutine ─────────────────────────────────────────────────────────────
 
     private IEnumerator PlayEventSequence()
     {
         _hasTriggered = true;
 
-        // 1. Grab Player References and freeze them
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        FirstPersonController fpsController = player.GetComponent<FirstPersonController>();
-        CharacterController cc = player.GetComponent<CharacterController>();
+        _playerContext.FreezePlayer();
+        OnEventTriggered.Invoke();
+        Debug.Log($"[Event System] Task event triggered: {_targetTask.taskName}");
 
-        if (fpsController != null) fpsController.enabled = false;
-        if (cc != null) cc.enabled = false;
+        foreach (GameObject cam in _cinematicCameras)
+            cam?.SetActive(true);
 
-        // 2. Fire custom Unity Events (can be Debug.Log, spawning items, etc.)
-        onEventTriggered.Invoke();
-        Debug.Log($"[Event System] Task event triggered for task: {targetTask.taskName}");
+        yield return new WaitForSeconds(_sequenceDuration);
 
-        // 3. Activate the list of Cinemachine cameras sequentially or all at once
-        foreach (GameObject cam in cinematicCameras)
-        {
-            if (cam != null) cam.SetActive(true);
-        }
+        foreach (GameObject cam in _cinematicCameras)
+            cam?.SetActive(false);
 
-        // 4. Wait for the sequence duration
-        yield return new WaitForSeconds(sequenceDuration);
+        yield return new WaitForSeconds(_cameraBlendTime);
 
-        // 5. Turn off all cinematic cameras in the list
-        foreach (GameObject cam in cinematicCameras)
-        {
-            if (cam != null) cam.SetActive(false);
-        }
-
-        yield return new WaitForSeconds(cameraBlendTime);
-
-        // 6. Re-enable player movement
-        if (fpsController != null) fpsController.enabled = true;
-        if (cc != null) cc.enabled = true;
+        _playerContext.UnfreezePlayer();
     }
 }

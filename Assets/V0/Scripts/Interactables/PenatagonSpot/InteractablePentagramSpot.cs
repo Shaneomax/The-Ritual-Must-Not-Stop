@@ -1,33 +1,37 @@
 using System.Collections;
 using UnityEngine;
-using StarterAssets; 
 
-public class InteractablePentagramSpot : MonoBehaviour, IInteractable
+/// <summary>
+/// Interactable pentagram spot. Player must be inside the trigger zone and
+/// have ItemType.Chalk in inventory to draw. Plays a cinematic look-down sequence.
+///
+/// Inspector setup:
+///   - Pentagram Object → the mesh/decal to activate when drawn
+///   - Look Down Camera → the Cinemachine virtual camera to activate during the cutscene
+///   - Player Context   → drag PlayerCapsule here
+///   - Prompt Text      → e.g. "Press E to Draw Pentagram (Requires Chalk)"
+/// </summary>
+public class InteractablePentagramSpot : InteractableBase
 {
     [Header("Pentagram Target")]
-    public GameObject pentagramObject;
-    [Tooltip("How long to wait after drawing before the camera pans back up")]
-    public float drawDelay = 1.0f;
-    
-    [Header("Cinemachine Settings")]
-    [Tooltip("Drag the PentagramCam GameObject here")]
-    public GameObject lookDownCamera; 
-    [Tooltip("How long the camera sweep takes (match your Cinemachine Brain default blend)")]
-    public float cameraBlendTime = 1.5f;
-    
-    [Header("Player Settings")]
-    public string chalkObjectName = "Chalk"; 
+    [SerializeField] private GameObject _pentagramObject;
+    [Tooltip("How long to pause after drawing before the camera sweeps back up.")]
+    [SerializeField] private float _drawDelay = 1.0f;
 
-    private bool _isDrawn = false;
+    [Header("Cinemachine Settings")]
+    [Tooltip("Drag the PentagramCam Cinemachine virtual camera here.")]
+    [SerializeField] private GameObject _lookDownCamera;
+    [Tooltip("Should match the Cinemachine Brain default blend time.")]
+    [SerializeField] private float _cameraBlendTime = 1.5f;
+
+    private bool _isDrawn        = false;
     private bool _isPlayerInside = false;
-    private bool _isAnimating = false;
+    private bool _isAnimating    = false;
 
     private void Start()
     {
-        if (pentagramObject != null)
-        {
-            pentagramObject.SetActive(false);
-        }
+        if (_pentagramObject != null)
+            _pentagramObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,85 +44,52 @@ public class InteractablePentagramSpot : MonoBehaviour, IInteractable
         if (other.CompareTag("Player")) _isPlayerInside = false;
     }
 
-    public string GetDescription()
+    // ── IInteractable ─────────────────────────────────────────────────────────
+
+    public override string GetDescription()
     {
-        if (_isDrawn) return "The pentagram is drawn.";
-        if (_isAnimating) return ""; 
+        if (_isDrawn)       return "The pentagram is drawn.";
+        if (_isAnimating)   return "";
         if (!_isPlayerInside) return "Get closer to draw the Pentagram.";
-        
-        return "Press E to Draw Pentagram (Requires Chalk)";
+        return _promptText;
     }
 
-    public void Interact()
+    public override void Interact()
     {
         if (_isDrawn || !_isPlayerInside || _isAnimating) return;
 
-        if (IsChalkActive())
+        if (_playerContext != null && _playerContext.Inventory.HasItem(ItemType.Chalk))
         {
             StartCoroutine(DrawPentagramSequence());
         }
         else
         {
-            Debug.Log("You need active chalk in your hand to draw this!");
+            Debug.Log("You need chalk in your inventory to draw this!");
         }
     }
 
-    private bool IsChalkActive()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            Transform[] allChildren = player.GetComponentsInChildren<Transform>(true);
-            foreach (Transform child in allChildren)
-            {
-                if (child.name == chalkObjectName)
-                {
-                    return child.gameObject.activeInHierarchy;
-                }
-            }
-        }
-        return false;
-    }
+    // ── Coroutine ─────────────────────────────────────────────────────────────
 
     private IEnumerator DrawPentagramSequence()
     {
         _isAnimating = true;
 
-        // 1. Grab Player References
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        FirstPersonController fpsController = player.GetComponent<FirstPersonController>();
-        CharacterController cc = player.GetComponent<CharacterController>();
+        _playerContext.FreezePlayer();
+        if (_lookDownCamera != null) _lookDownCamera.SetActive(true);
 
-        // 2. Disable movement and looking
-        if (fpsController != null) fpsController.enabled = false;
-        if (cc != null) cc.enabled = false;
+        yield return new WaitForSeconds(_cameraBlendTime);
 
-        // 3. Switch to the Look Down Camera
-        if (lookDownCamera != null) lookDownCamera.SetActive(true);
+        if (_pentagramObject != null) _pentagramObject.SetActive(true);
 
-        // Wait for Cinemachine to smoothly sweep the camera down
-        yield return new WaitForSeconds(cameraBlendTime);
+        yield return new WaitForSeconds(_drawDelay);
 
-        // 4. Instantly draw the Pentagram
-        if (pentagramObject != null)
-        {
-            pentagramObject.SetActive(true);
-        }
-        
-        // Give the player a moment to see the drawing before snapping back
-        yield return new WaitForSeconds(drawDelay); 
+        if (_lookDownCamera != null) _lookDownCamera.SetActive(false);
 
-        // 5. Turn off the Look Down Camera (Cinemachine automatically sweeps back to the player)
-        if (lookDownCamera != null) lookDownCamera.SetActive(false);
+        yield return new WaitForSeconds(_cameraBlendTime);
 
-        // Wait for Cinemachine to sweep back
-        yield return new WaitForSeconds(cameraBlendTime);
+        _playerContext.UnfreezePlayer();
 
-        // 6. Re-enable inputs seamlessly
-        if (fpsController != null) fpsController.enabled = true;
-        if (cc != null) cc.enabled = true;
-
-        _isDrawn = true;
+        _isDrawn     = true;
         _isAnimating = false;
         Debug.Log("Pentagram drawn successfully!");
     }
