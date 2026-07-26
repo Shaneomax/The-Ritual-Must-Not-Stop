@@ -95,6 +95,7 @@ namespace StarterAssets
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+			Cursor.visible = !newState;
 		}
 		public void FlashlightInput(bool newFlashlightState)
         {
@@ -104,6 +105,20 @@ namespace StarterAssets
 		public void JournalInput(bool newJournalState)
 		{
 			journal = newJournalState;
+		}
+
+		public void SetPauseState(bool isPaused)
+		{
+			cursorInputForLook = !isPaused;
+			cursorLocked = !isPaused;
+			
+			SetCursorState(!isPaused);
+
+			if (isPaused)
+			{
+				look = Vector2.zero;
+				move = Vector2.zero;
+			}
 		}
 	}
 }
