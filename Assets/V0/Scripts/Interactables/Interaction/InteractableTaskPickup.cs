@@ -19,6 +19,9 @@ public class InteractableTaskPickup : InteractableBase
     [Header("Task Settings")]
     [Tooltip("The ScriptableObject task this pickup completes.")]
     [SerializeField] private GameTask _taskToComplete;
+    
+    [Tooltip("How many of this item does the player need to complete the task? (e.g. 5 for candles)")]
+    [SerializeField] private int _requiredAmountToCompleteTask = 1;
 
     [Header("Item Settings")]
     [SerializeField] private ItemData _itemData;
@@ -55,13 +58,23 @@ public class InteractableTaskPickup : InteractableBase
     /// <summary>Fires when the item is ready to be collected (after animation or instantly).</summary>
     private void OnCollected()
     {
-        Debug.Log($"You picked up {_itemData.itemName}!");
+        // 1. Add item to inventory (which handles the count internally now)
         _playerContext?.Inventory.AddItem(_itemData.type);
 
+        // 2. Check if we have enough to complete the task
         if (_taskToComplete != null)
         {
-            _taskToComplete.isCompleted = true;
-            Debug.Log($"<color=green>SUCCESS:</color> Task Completed: {_taskToComplete.taskName}");
+            int currentCount = _playerContext.Inventory.GetItemCount(_itemData.type);
+            
+            if (currentCount >= _requiredAmountToCompleteTask)
+            {
+                _taskToComplete.isCompleted = true;
+                Debug.Log($"<color=green>SUCCESS:</color> Task Completed: {_taskToComplete.taskName}");
+            }
+            else
+            {
+                Debug.Log($"Task Progress: {currentCount} / {_requiredAmountToCompleteTask} {_itemData.itemName}s collected.");
+            }
         }
         else
         {

@@ -16,30 +16,12 @@ using UnityEngine;
 /// </summary>
 public class PickupAnimationHandler : MonoBehaviour
 {
-    // ── Phase 1 — Float Into Camera View ──────────────────────────────────────
-
-    [Header("Phase 1 — Float Into Camera View")]
-    [Tooltip("How long the item takes to glide to the centre of the camera view.")]
-    [SerializeField] private float _focusDuration = 0.6f;
-    [Tooltip("OutQuad is smooth and has no 'bounce' at the end.")]
-    [SerializeField] private Ease _focusEase = Ease.OutQuad;
-
-    [Tooltip("How far in front of the camera (metres) the item floats to.")]
-    [SerializeField] private float _focusDistance = 1.5f;
-
-    [Tooltip("Adds a slight upward curve to the path so it clears tables/floors smoothly.")]
-    [SerializeField] private float _arcHeight = 0.2f;
-
-    // ── Phase 2 — Come Closer to Player ───────────────────────────────────────
-
-    [Header("Phase 2 — Come Closer to Player")]
-    [Tooltip("How long the item takes to rush toward the player.")]
-    [SerializeField] private float _collectDuration = 0.4f;
-    [Tooltip("InQuad starts slow then accelerates into the player.")]
+    [Header("Pickup Animation Settings")]
+    [Tooltip("How long the item takes to zip into the player.")]
+    [SerializeField] private float _collectDuration = 0.2f;
+    
+    [Tooltip("The DOTween ease type. InQuad starts slow and snaps fast into the player.")]
     [SerializeField] private Ease _collectEase = Ease.InQuad;
-
-    [Tooltip("Extra distance the item travels PAST the camera into the player body.")]
-    [SerializeField] private float _collectPassDistance = 0.5f;
 
     [Tooltip("Shrink the item to zero as it flies in.")]
     [SerializeField] private bool _scaleDownOnCollect = true;
@@ -66,24 +48,18 @@ public class PickupAnimationHandler : MonoBehaviour
 
         // ── Compute targets ────────────────────────────────────────────────────
 
-        // Target 1: Exactly in front of the camera
-        Vector3 focusPosition = cam.transform.position + cam.transform.forward * _focusDistance;
-
-        // Target 2: Past the camera, into the player
-        Vector3 collectPosition = cam.transform.position - cam.transform.forward * _collectPassDistance;
+        // Target: Just slightly below/inside the camera so it looks like it goes into the player's body
+        Vector3 collectPosition = cam.transform.position - cam.transform.up * 0.5f;
 
         // ── Build Sequence ────────────────────────────────────────────────────
         Sequence seq = DOTween.Sequence();
 
-        // Phase 1 — Smooth glide to center of view in a straight line
-        seq.Append(transform.DOMove(focusPosition, _focusDuration).SetEase(_focusEase));
-
-        // Phase 2 — Rush toward the player
+        // Single Phase — Rush straight into the player fast
         seq.Append(transform.DOMove(collectPosition, _collectDuration).SetEase(_collectEase));
 
         if (_scaleDownOnCollect)
         {
-            // Start shrinking exactly when Phase 2 starts
+            // Shrink as it flies
             seq.Join(transform.DOScale(Vector3.zero, _collectDuration).SetEase(_collectEase));
         }
 
