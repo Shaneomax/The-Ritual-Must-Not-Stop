@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using StarterAssets;
 
@@ -21,6 +22,9 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private LayerMask _interactableLayer;
 
     private StarterAssetsInputs _input;
+
+    /// <summary>Fired whenever the player aims at or stops aiming at an interactable.</summary>
+    public event Action<IInteractable> OnInteractableHoverChanged;
 
     /// <summary>The interactable currently in the player's crosshair, or null.</summary>
     public IInteractable CurrentInteractable { get; private set; }
@@ -59,6 +63,8 @@ public class PlayerInteractor : MonoBehaviour
     {
         Ray ray = new Ray(_mainCamera.transform.position, _mainCamera.transform.forward);
 
+        IInteractable previousInteractable = CurrentInteractable;
+
         if (Physics.Raycast(ray, out RaycastHit hit, _interactionDistance, _interactableLayer))
         {
             // Use GetComponentInParent so raycasts hitting a child mesh/collider
@@ -68,6 +74,11 @@ public class PlayerInteractor : MonoBehaviour
         else
         {
             CurrentInteractable = null;
+        }
+
+        if (previousInteractable != CurrentInteractable)
+        {
+            OnInteractableHoverChanged?.Invoke(CurrentInteractable);
         }
     }
 }
