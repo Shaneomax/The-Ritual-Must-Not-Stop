@@ -9,6 +9,8 @@ public class PlayerInventory : MonoBehaviour
 {
     private readonly List<ItemType> _items = new List<ItemType>();
 
+    public event System.Action<ItemType> OnItemAdded;
+
     // ── Public API ────────────────────────────────────────────────────────────
 
     /// <summary>Returns true if the player is carrying at least one item of the given type.</summary>
@@ -30,6 +32,7 @@ public class PlayerInventory : MonoBehaviour
     {
         _items.Add(type);
         Debug.Log($"[Inventory] Added: {type} (Total: {GetItemCount(type)})");
+        OnItemAdded?.Invoke(type);
     }
 
     /// <summary>Removes one instance of an item from the inventory. Returns true if successful.</summary>
