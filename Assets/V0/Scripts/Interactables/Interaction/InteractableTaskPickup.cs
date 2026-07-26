@@ -61,7 +61,11 @@ public class InteractableTaskPickup : InteractableBase
         if (_taskToComplete != null)
         {
             _taskToComplete.isCompleted = true;
-            Debug.Log($"Task Completed: {_taskToComplete.taskName}");
+            Debug.Log($"<color=green>SUCCESS:</color> Task Completed: {_taskToComplete.taskName}");
+        }
+        else
+        {
+            Debug.LogWarning("<color=red>WARNING:</color> You picked up the item, but 'Task To Complete' is completely empty (null) on this object!");
         }
 
         Destroy(gameObject);

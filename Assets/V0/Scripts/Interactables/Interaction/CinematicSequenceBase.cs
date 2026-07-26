@@ -38,6 +38,18 @@ public abstract class CinematicSequenceBase : MonoBehaviour
     public UnityEvent OnSequenceStarted;
     public UnityEvent OnSequenceFinished;
 
+    [System.Serializable]
+    public struct TimedSequenceEvent
+    {
+        [Tooltip("Time in seconds from the START of the sequence to trigger this event.")]
+        public float TriggerTime;
+        public UnityEvent OnEventTriggered;
+    }
+
+    [Header("Mid-Sequence Events")]
+    [Tooltip("Events that trigger at specific times while the sequence is playing.")]
+    public TimedSequenceEvent[] MidSequenceEvents;
+
     protected bool _isRunning = false;
 
     /// <summary>
@@ -63,6 +75,12 @@ public abstract class CinematicSequenceBase : MonoBehaviour
         // 1. Freeze player & Fire events
         _playerContext.FreezePlayer();
         OnSequenceStarted?.Invoke();
+
+        // Start processing mid-sequence timed events in parallel
+        if (MidSequenceEvents != null && MidSequenceEvents.Length > 0)
+        {
+            StartCoroutine(HandleTimedEvents());
+        }
 
         if (_sequenceCamera != null)
         {
@@ -98,6 +116,27 @@ public abstract class CinematicSequenceBase : MonoBehaviour
         OnSequenceFinished?.Invoke();
         
         _isRunning = false;
+    }
+
+    private IEnumerator HandleTimedEvents()
+    {
+        float timer = 0f;
+        bool[] hasFired = new bool[MidSequenceEvents.Length];
+
+        // Keep checking the timer as long as the sequence is active
+        while (_isRunning)
+        {
+            for (int i = 0; i < MidSequenceEvents.Length; i++)
+            {
+                if (!hasFired[i] && timer >= MidSequenceEvents[i].TriggerTime)
+                {
+                    hasFired[i] = true;
+                    MidSequenceEvents[i].OnEventTriggered?.Invoke();
+                }
+            }
+            timer += Time.deltaTime;
+            yield return null;
+        }
     }
 }
 
