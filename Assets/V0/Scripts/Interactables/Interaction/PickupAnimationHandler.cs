@@ -75,16 +75,8 @@ public class PickupAnimationHandler : MonoBehaviour
         // ── Build Sequence ────────────────────────────────────────────────────
         Sequence seq = DOTween.Sequence();
 
-        // Phase 1 — Smooth glide to center of view with a slight arc to avoid table clipping
-        if (_arcHeight > 0f)
-        {
-            // DOJump creates a smooth parabola. numJumps=1 means it just arcs once to the target.
-            seq.Append(transform.DOJump(focusPosition, _arcHeight, 1, _focusDuration).SetEase(_focusEase));
-        }
-        else
-        {
-            seq.Append(transform.DOMove(focusPosition, _focusDuration).SetEase(_focusEase));
-        }
+        // Phase 1 — Smooth glide to center of view in a straight line
+        seq.Append(transform.DOMove(focusPosition, _focusDuration).SetEase(_focusEase));
 
         // Phase 2 — Rush toward the player
         seq.Append(transform.DOMove(collectPosition, _collectDuration).SetEase(_collectEase));
