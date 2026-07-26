@@ -15,6 +15,9 @@ public class EventActions : MonoBehaviour
     [Tooltip("A list of objects you want to turn off when this event happens.")]
     public GameObject[] objectsToDisable;
 
+    [Tooltip("A list of objects you want to turn ON when this event happens.")]
+    public GameObject[] objectsToEnable;
+
     [Header("Fade Settings")]
     [Tooltip("The black UI image used to fade the screen. Leave empty for instant teleport.")]
     public Image fadeScreen;
@@ -98,6 +101,18 @@ public class EventActions : MonoBehaviour
                 if (obj != null)
                 {
                     obj.SetActive(false);
+                }
+            }
+        }
+
+        // 4. Enable the requested objects
+        if (objectsToEnable != null)
+        {
+            foreach (GameObject obj in objectsToEnable)
+            {
+                if (obj != null)
+                {
+                    obj.SetActive(true);
                 }
             }
         }
