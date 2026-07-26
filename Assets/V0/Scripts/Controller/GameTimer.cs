@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using DG.Tweening;
 
 /// <summary>
 /// Listens to the PlayerInventory for when a specific item is picked up (e.g. Journal)
@@ -22,6 +23,12 @@ public class GameTimer : MonoBehaviour
     [Header("Dependencies")]
     [Tooltip("Reference to the player's inventory.")]
     [SerializeField] private PlayerInventory _inventory;
+
+    [Header("Game Over Settings")]
+    [Tooltip("The black UI image used to fade the screen when time runs out.")]
+    [SerializeField] private UnityEngine.UI.Image _fadeScreen;
+    [Tooltip("The name of your Main Menu scene.")]
+    [SerializeField] private string _mainMenuSceneName = "MainMenu";
 
     [Header("Events")]
     public UnityEvent OnTimerStarted;
@@ -49,6 +56,12 @@ public class GameTimer : MonoBehaviour
             
             // Hide the timer UI at start
             _timerText.gameObject.SetActive(false);
+        }
+
+        if (_fadeScreen != null)
+        {
+            _fadeScreen.color = new Color(0, 0, 0, 0);
+            _fadeScreen.gameObject.SetActive(false);
         }
     }
 
@@ -104,10 +117,29 @@ public class GameTimer : MonoBehaviour
             Debug.Log("[GameTimer] Time is up!");
             UpdateTimerUI();
             OnTimerExpired?.Invoke();
+            TriggerGameOver();
         }
         else
         {
             UpdateTimerUI();
+        }
+    }
+
+    private void TriggerGameOver()
+    {
+        if (_fadeScreen != null)
+        {
+            _fadeScreen.gameObject.SetActive(true);
+            
+            // Use DOTween to fade to black over 1.5 seconds, then load the scene
+            _fadeScreen.DOFade(1f, 1.5f).OnComplete(() => 
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(_mainMenuSceneName);
+            });
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(_mainMenuSceneName);
         }
     }
 

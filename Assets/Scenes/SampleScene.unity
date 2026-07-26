@@ -163,6 +163,8 @@ MonoBehaviour:
   _triggerItem: 6
   _timerText: {fileID: 1689748395}
   _inventory: {fileID: 1742813409}
+  _fadeScreen: {fileID: 275305219}
+  _mainMenuSceneName: MainMenu
   OnTimerStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -863,7 +865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &761863738
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1390,7 +1392,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
