@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool interact; 
         public bool flashlight;
+		public bool journal;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -54,6 +55,11 @@ namespace StarterAssets
         {
             FlashlightInput(value.isPressed);
         }
+
+		public void OnJournal(InputValue value)
+		{
+			JournalInput(value.isPressed);
+		}
 #endif
 
 		public void MoveInput(Vector2 newMoveDirection)
@@ -94,5 +100,10 @@ namespace StarterAssets
         {
             flashlight = newFlashlightState;
         }
+
+		public void JournalInput(bool newJournalState)
+		{
+			journal = newJournalState;
+		}
 	}
 }

@@ -17,5 +17,6 @@ public enum ItemType
     Chalk,
     Skull,
     Key,
-    Lighter 
+    Lighter,
+    Journal 
 }

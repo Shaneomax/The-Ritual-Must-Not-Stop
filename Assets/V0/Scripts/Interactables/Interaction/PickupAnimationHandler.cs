@@ -16,33 +16,18 @@ using UnityEngine;
 /// </summary>
 public class PickupAnimationHandler : MonoBehaviour
 {
-    // ── Phase 1 — Float Into Camera View ──────────────────────────────────────
+    [Header("Pickup Animation Settings")]
+    [Tooltip("How long the item takes to fly to the player's screen.")]
+    [SerializeField] private float _flyDuration = 0.3f;
 
-    [Header("Phase 1 — Float Into Camera View")]
-    [Tooltip("How long the item takes to glide to the centre of the camera view.")]
-    [SerializeField] private float _focusDuration = 0.6f;
-    [Tooltip("OutQuad is smooth and has no 'bounce' at the end.")]
-    [SerializeField] private Ease _focusEase = Ease.OutQuad;
+    [Tooltip("How long the item pauses in front of the screen so the player can see it.")]
+    [SerializeField] private float _pauseDuration = 0.2f;
 
-    [Tooltip("How far in front of the camera (metres) the item floats to.")]
-    [SerializeField] private float _focusDistance = 1.5f;
-
-    [Tooltip("Adds a slight upward curve to the path so it clears tables/floors smoothly.")]
-    [SerializeField] private float _arcHeight = 0.2f;
-
-    // ── Phase 2 — Come Closer to Player ───────────────────────────────────────
-
-    [Header("Phase 2 — Come Closer to Player")]
-    [Tooltip("How long the item takes to rush toward the player.")]
-    [SerializeField] private float _collectDuration = 0.4f;
-    [Tooltip("InQuad starts slow then accelerates into the player.")]
-    [SerializeField] private Ease _collectEase = Ease.InQuad;
-
-    [Tooltip("Extra distance the item travels PAST the camera into the player body.")]
-    [SerializeField] private float _collectPassDistance = 0.5f;
-
-    [Tooltip("Shrink the item to zero as it flies in.")]
-    [SerializeField] private bool _scaleDownOnCollect = true;
+    [Tooltip("How long it takes to shrink away into the inventory.")]
+    [SerializeField] private float _shrinkDuration = 0.15f;
+    
+    [Tooltip("The DOTween ease type for the flying motion.")]
+    [SerializeField] private Ease _flyEase = Ease.OutBack;
 
     // ── State ─────────────────────────────────────────────────────────────────
 
@@ -66,34 +51,23 @@ public class PickupAnimationHandler : MonoBehaviour
 
         // ── Compute targets ────────────────────────────────────────────────────
 
-        // Target 1: Exactly in front of the camera
-        Vector3 focusPosition = cam.transform.position + cam.transform.forward * _focusDistance;
-
-        // Target 2: Past the camera, into the player
-        Vector3 collectPosition = cam.transform.position - cam.transform.forward * _collectPassDistance;
+        // Target: Exactly in front of the camera so it flies straight at the player's face
+        Vector3 collectPosition = cam.transform.position + (cam.transform.forward * 0.5f);
 
         // ── Build Sequence ────────────────────────────────────────────────────
         Sequence seq = DOTween.Sequence();
 
-        // Phase 1 — Smooth glide to center of view with a slight arc to avoid table clipping
-        if (_arcHeight > 0f)
+        // Phase 1 — Fly straight to the camera (without shrinking)
+        seq.Append(transform.DOMove(collectPosition, _flyDuration).SetEase(_flyEase));
+
+        // Phase 2 — Pause briefly so the player sees what they picked up
+        if (_pauseDuration > 0f)
         {
-            // DOJump creates a smooth parabola. numJumps=1 means it just arcs once to the target.
-            seq.Append(transform.DOJump(focusPosition, _arcHeight, 1, _focusDuration).SetEase(_focusEase));
-        }
-        else
-        {
-            seq.Append(transform.DOMove(focusPosition, _focusDuration).SetEase(_focusEase));
+            seq.AppendInterval(_pauseDuration);
         }
 
-        // Phase 2 — Rush toward the player
-        seq.Append(transform.DOMove(collectPosition, _collectDuration).SetEase(_collectEase));
-
-        if (_scaleDownOnCollect)
-        {
-            // Start shrinking exactly when Phase 2 starts
-            seq.Join(transform.DOScale(Vector3.zero, _collectDuration).SetEase(_collectEase));
-        }
+        // Phase 3 — Shrink away into the inventory
+        seq.Append(transform.DOScale(Vector3.zero, _shrinkDuration).SetEase(Ease.InBack));
 
         seq.OnComplete(() =>
         {
