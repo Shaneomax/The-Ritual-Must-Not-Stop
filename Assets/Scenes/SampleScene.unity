@@ -1552,7 +1552,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48.05206
+      value: 47.17
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1600,13 +1600,66 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 155f0a759e8825a40b5805350c15c5e7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1761531337}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1761531338}
   m_SourcePrefab: {fileID: 100100000, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
+--- !u!1 &1761531334 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 40ea6357c1f18a144a6754b2c4780765, type: 3}
+  m_PrefabInstance: {fileID: 1761531333}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &1761531337
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761531334}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 1.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1761531338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761531334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69a2b30704919f42885bba5f7419df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  target: {fileID: 1742813410}
+  catchDistance: 1.5
+  mainMenuSceneName: MainMenu
+  fadeScreen: {fileID: 275305219}
 --- !u!1 &1761682701 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3738614014469686772, guid: b104d2bd6d5398c4a983ea2b3ffa15a7, type: 3}
@@ -1896,7 +1949,7 @@ PrefabInstance:
     - target: {fileID: 5042040735566636352, guid: 634b0970b5ff5fb43bf434fc4714fc85, type: 3}
       propertyPath: '_objectsToActivate.Array.data[2]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1761531334}
     - target: {fileID: 5528566250866225696, guid: 634b0970b5ff5fb43bf434fc4714fc85, type: 3}
       propertyPath: '_objectsToActivate.Array.data[0]'
       value: 
@@ -2160,6 +2213,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3905701419652211561, guid: 701269feec268be4fb56d1b29483a0be, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 36c6529f3b6de574ab75412542ba0193, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3141,6 +3198,30 @@ PrefabInstance:
       propertyPath: _playerContext
       value: 
       objectReference: {fileID: 1742813408}
+    - target: {fileID: 2307532028838846336, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8185093
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307532028838846336, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3242
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307532028838846336, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.112822
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307532028838846336, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 36.5359
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307532028838846336, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0279
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307532028838846336, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -125.7685
+      objectReference: {fileID: 0}
     - target: {fileID: 2609165666533554674, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
       propertyPath: _playerContext
       value: 
@@ -3153,6 +3234,22 @@ PrefabInstance:
       propertyPath: OnSequenceFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 468427557}
+    - target: {fileID: 3177749605965803830, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.7218897
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177749605965803830, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.5302515
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177749605965803830, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 36.6206
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177749605965803830, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -123.5224
+      objectReference: {fileID: 0}
     - target: {fileID: 3826955252591794601, guid: 70ad4b8adbcd4314d99a34df56cf0f8e, type: 3}
       propertyPath: '_objectsToActivate.Array.data[0]'
       value: 
