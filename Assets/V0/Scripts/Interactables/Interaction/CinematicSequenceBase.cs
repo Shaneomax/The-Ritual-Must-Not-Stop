@@ -14,7 +14,7 @@ public abstract class CinematicSequenceBase : MonoBehaviour
     [Header("Base Sequence Settings")]
     [SerializeField] protected PlayerContext _playerContext;
     
-    [Tooltip("The camera to activate for this sequence.")]
+    [Tooltip("The camera to activate for this sequence. (Optional)")]
     [SerializeField] protected CinemachineCamera _sequenceCamera;
 
     [Tooltip("Priority while active (should be higher than Player Camera).")]
@@ -47,9 +47,9 @@ public abstract class CinematicSequenceBase : MonoBehaviour
     {
         if (_isRunning) return;
         
-        if (_playerContext == null || _sequenceCamera == null)
+        if (_playerContext == null)
         {
-            Debug.LogWarning($"[{gameObject.name}] Sequence failed to start: Missing PlayerContext or SequenceCamera.");
+            Debug.LogWarning($"[{gameObject.name}] Sequence failed to start: Missing PlayerContext.");
             return;
         }
 
@@ -64,23 +64,34 @@ public abstract class CinematicSequenceBase : MonoBehaviour
         _playerContext.FreezePlayer();
         OnSequenceStarted?.Invoke();
 
-        // 2. Boost priority so Cinemachine takes over
-        _sequenceCamera.Priority = _activePriority;
-
-        // 3. Wait for the cinematic duration
-        yield return new WaitForSeconds(_sequenceDuration);
-
-        // 4. Sync look direction to prevent snapping
-        if (_syncRotationAtEnd)
+        if (_sequenceCamera != null)
         {
-            _playerContext.SyncLookToCamera(_sequenceCamera.transform);
+            // 2. Boost priority so Cinemachine takes over
+            _sequenceCamera.Priority = _activePriority;
+
+            // 3. Wait for the cinematic duration
+            yield return new WaitForSeconds(_sequenceDuration);
+
+            // 4. Sync look direction to prevent snapping
+            if (_syncRotationAtEnd)
+            {
+                _playerContext.SyncLookToCamera(_sequenceCamera.transform);
+            }
+
+            // 5. Drop priority so Cinemachine blends back to the player
+            _sequenceCamera.Priority = _inactivePriority;
+
+            // 6. Wait for the physical blend to finish
+            yield return new WaitForSeconds(_blendToPlayerDuration);
         }
-
-        // 5. Drop priority so Cinemachine blends back to the player
-        _sequenceCamera.Priority = _inactivePriority;
-
-        // 6. Wait for the physical blend to finish
-        yield return new WaitForSeconds(_blendToPlayerDuration);
+        else
+        {
+            // If no camera is provided, just wait for the duration like a normal timer
+            if (_sequenceDuration > 0)
+            {
+                yield return new WaitForSeconds(_sequenceDuration);
+            }
+        }
 
         // 7. Unfreeze player
         _playerContext.UnfreezePlayer();
@@ -89,3 +100,4 @@ public abstract class CinematicSequenceBase : MonoBehaviour
         _isRunning = false;
     }
 }
+

@@ -31,4 +31,11 @@ public class PlayerInventory : MonoBehaviour
 
     /// <summary>Read-only view of all currently held items.</summary>
     public IReadOnlyCollection<ItemType> GetItems() => _items;
+
+    /// <summary>Removes all items from the inventory.</summary>
+    public void ClearInventory()
+    {
+        _items.Clear();
+        Debug.Log("[Inventory] Cleared all items.");
+    }
 }
