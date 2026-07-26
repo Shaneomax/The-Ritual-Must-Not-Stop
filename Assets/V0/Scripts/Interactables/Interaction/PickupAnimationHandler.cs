@@ -17,14 +17,17 @@ using UnityEngine;
 public class PickupAnimationHandler : MonoBehaviour
 {
     [Header("Pickup Animation Settings")]
-    [Tooltip("How long the item takes to zip into the player.")]
-    [SerializeField] private float _collectDuration = 0.2f;
-    
-    [Tooltip("The DOTween ease type. InQuad starts slow and snaps fast into the player.")]
-    [SerializeField] private Ease _collectEase = Ease.InQuad;
+    [Tooltip("How long the item takes to fly to the player's screen.")]
+    [SerializeField] private float _flyDuration = 0.3f;
 
-    [Tooltip("Shrink the item to zero as it flies in.")]
-    [SerializeField] private bool _scaleDownOnCollect = true;
+    [Tooltip("How long the item pauses in front of the screen so the player can see it.")]
+    [SerializeField] private float _pauseDuration = 0.2f;
+
+    [Tooltip("How long it takes to shrink away into the inventory.")]
+    [SerializeField] private float _shrinkDuration = 0.15f;
+    
+    [Tooltip("The DOTween ease type for the flying motion.")]
+    [SerializeField] private Ease _flyEase = Ease.OutBack;
 
     // ── State ─────────────────────────────────────────────────────────────────
 
@@ -48,20 +51,23 @@ public class PickupAnimationHandler : MonoBehaviour
 
         // ── Compute targets ────────────────────────────────────────────────────
 
-        // Target: Just slightly below/inside the camera so it looks like it goes into the player's body
-        Vector3 collectPosition = cam.transform.position - cam.transform.up * 0.5f;
+        // Target: Exactly in front of the camera so it flies straight at the player's face
+        Vector3 collectPosition = cam.transform.position + (cam.transform.forward * 0.5f);
 
         // ── Build Sequence ────────────────────────────────────────────────────
         Sequence seq = DOTween.Sequence();
 
-        // Single Phase — Rush straight into the player fast
-        seq.Append(transform.DOMove(collectPosition, _collectDuration).SetEase(_collectEase));
+        // Phase 1 — Fly straight to the camera (without shrinking)
+        seq.Append(transform.DOMove(collectPosition, _flyDuration).SetEase(_flyEase));
 
-        if (_scaleDownOnCollect)
+        // Phase 2 — Pause briefly so the player sees what they picked up
+        if (_pauseDuration > 0f)
         {
-            // Shrink as it flies
-            seq.Join(transform.DOScale(Vector3.zero, _collectDuration).SetEase(_collectEase));
+            seq.AppendInterval(_pauseDuration);
         }
+
+        // Phase 3 — Shrink away into the inventory
+        seq.Append(transform.DOScale(Vector3.zero, _shrinkDuration).SetEase(Ease.InBack));
 
         seq.OnComplete(() =>
         {
