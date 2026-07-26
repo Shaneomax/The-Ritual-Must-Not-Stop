@@ -74,7 +74,12 @@ public class PauseManager : MonoBehaviour
         if (playerInputs != null)
         {
             playerInputs.SetPauseState(true);
+            playerInputs.cursorLocked = false;
+            playerInputs.cursorInputForLook = false;
         }
+        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void ResumeGame()
@@ -88,7 +93,12 @@ public class PauseManager : MonoBehaviour
         if (playerInputs != null)
         {
             playerInputs.SetPauseState(false);
+            playerInputs.cursorLocked = true;
+            playerInputs.cursorInputForLook = true;
         }
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void OpenSettings()
